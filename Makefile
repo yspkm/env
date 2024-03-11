@@ -1,5 +1,5 @@
 IMAGE=yspkm/jupyter
-TAG=pytorch2.2.0-cuda12.1-cudnn8-runtime
+TAG=pytorch2.2.1-cuda12.1-cudnn8-runtime
 DOCKERFILE=.
 WORKDIR=/home/yspkm
 CONTAINER=jupyter
@@ -9,7 +9,9 @@ SHELL=/bin/bash
 build:
 	@args=""; \
 	while IFS='=' read -r key value; do \
-		args="$$args --build-arg $$key=$$value"; \
+		if [ -n "$$key" ] && [ -n "$$value" ]; then \
+			args="$$args --build-arg $$key=$$value"; \
+		fi; \
 	done < $(ENVFILE); \
 	docker image build -t $(IMAGE):$(TAG) $$args $(DOCKERFILE)
 
