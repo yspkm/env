@@ -1,0 +1,35 @@
+# 참고용
+mlflow
+jupyterlab
+jupyterlab-vim
+jupyterlab-code-formatter
+jupyterlab-lsp
+python-lsp-server[all]
+black
+isort
+notebook
+voila
+scikit-learn
+tensorboard
+wandb
+numpy
+scipy
+matplotlib
+pandas
+sympy
+seaborn
+plotly
+dash
+optuna
+cupy-cuda12x
+memory_profiler
+pyarrow
+ipywidgets
+dezero
+kaggle
+ 
+# --index-url https://download.pytorch.org/whl/cu121
+# torch
+# torchvision
+# torchaudio
+# torchtext
