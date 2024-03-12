@@ -2,6 +2,7 @@ IMAGE=yspkm/jupyter
 TAG=pytorch2.2.1-cuda12.1-cudnn8-runtime
 DOCKERFILE=.
 WORKDIR=/home/yspkm
+CUDA=/usr/local/cuda-12.2
 CONTAINER=jupyter
 ENVFILE=.env
 SHELL=/bin/bash
@@ -17,6 +18,7 @@ build:
 
 up:
 	docker container run \
+		--restart=unless-stopped \
 		--detach \
 		--interactive \
 		--tty \
@@ -24,6 +26,7 @@ up:
 		--gpus all \
 		--ipc=host \
 		--volume $(WORKDIR):/workspace \
+		--volume $(CUDA):/cuda \
 		-p 8888:8888 \
 		-p 6006:6006 \
 		--name $(CONTAINER) \

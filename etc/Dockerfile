@@ -1,4 +1,4 @@
-FROM ubuntu:jammy-20240125
+FROM pytorch/pytorch:2.2.1-cuda12.1-cudnn8-runtime
 
 ARG TZ
 ARG JULIA_RELEASE
@@ -7,7 +7,6 @@ ARG JULIA_TAR_GZ
 ARG JUPYTER_PASSWORD
  
 RUN rm -f /etc/apt/sources.list.d/*.list
-COPY requirements.txt .
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime
 RUN apt-get update && \
     apt-get upgrade -y && \
@@ -22,24 +21,49 @@ RUN apt-get update && \
         libgl1-mesa-glx \
         libglib2.0-0 \
         zip \
-		unzip \
-        python3 \
-        python3-dev \
-        python3-pip && \
+        unzip && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install --upgrade setuptools pip && \
-    pip3 install torch torchvision torchaudio torchtext --index-url https://download.pytorch.org/whl/cu121 && \
-    pip3 install -r requirements.txt 
+RUN pip install --upgrade setuptools pip && \
+    pip install \
+        jupyterlab \
+        jupyterlab-vim \
+        jupyterlab-code-formatter \
+        jupyterlab-lsp \
+        'python-lsp-server[all]' \
+        black \
+        isort \
+        notebook \
+        voila \
+        scikit-learn \
+        tensorboard \
+        wandb \
+        numpy \
+        scipy \
+        matplotlib \
+        pandas \
+        sympy \
+        seaborn \
+        plotly \
+        dash \
+        optuna \
+        cupy-cuda12x \
+        memory_profiler \
+        pyarrow \
+        ipywidgets
 
+# Setup Fronts for Korean
 RUN wget http://cdn.naver.com/naver/NanumFont/fontfiles/NanumFont_TTF_ALL.zip && \
     wget https://github.com/naver/nanumfont/releases/download/VER2.5/NanumGothicCoding-2.5.zip && \
 	unzip NanumFont_TTF_ALL.zip && \
 	unzip NanumGothicCoding-2.5.zip && \
 	mkdir -p /usr/share/fonts/truetype/nanum && \
-	mv *.ttf /usr/share/fonts/truetype/nanum/
+	mv *.ttf /usr/share/fonts/truetype/nanum/ && \
+	cp /usr/share/fonts/truetype/nanum/Nanum* \
+    	/opt/conda/lib/python3.10/site-packages/matplotlib/mpl-data/fonts/ttf/
 
+# Install Julia 
 RUN wget https://julialang-s3.julialang.org/bin/linux/x64/${JULIA_RELEASE}/${JULIA_TAR_GZ} && \
     tar -xvzf ${JULIA_TAR_GZ} && \
     cp -r julia-${JULIA_VERSION} /opt/ && \
@@ -47,6 +71,7 @@ RUN wget https://julialang-s3.julialang.org/bin/linux/x64/${JULIA_RELEASE}/${JUL
     rm ${JULIA_TAR_GZ} && \
 	julia -e 'using Pkg; Pkg.add("SymEngine"); Pkg.add("IJulia"); Pkg.add("LanguageServer");'
 
+# Setup Jupyter Notebook
 RUN jupyter notebook --generate-config && \
     JUPYTER_PASSWORD_SHA1=`python3 -c \
         "import os; \
