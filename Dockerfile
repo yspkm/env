@@ -1,4 +1,4 @@
-FROM ubuntu:jammy-20240125
+FROM ubuntu:jammy-20240227
 
 ARG TZ
 ARG JULIA_RELEASE
@@ -26,7 +26,9 @@ RUN apt-get update && \
         libgl1-mesa-glx \
         libglib2.0-0 \
         zip \
-		unzip \
+        unzip \
+	graphviz \
+	libgraphviz-dev \
         python3 \
         python3-dev \
         python3-pip && \
@@ -61,7 +63,8 @@ RUN jupyter notebook --generate-config && \
     echo "c.NotebookApp.allow_root = True" >> /root/.jupyter/jupyter_notebook_config.py && \
     echo "c.NotebookApp.open_browser = False" >> /root/.jupyter/jupyter_notebook_config.py && \
     echo "c.NotebookApp.password_required = True" >> /root/.jupyter/jupyter_notebook_config.py && \
-    echo "c.NotebookApp.use_redirect_file = False" >> /root/.jupyter/jupyter_notebook_config.py
+    echo "c.NotebookApp.use_redirect_file = False" >> /root/.jupyter/jupyter_notebook_config.py && \
+    echo "c.FileContentsManager.delete_to_trash = False" >> /root/.jupyter/jupyter_notebook_config.py
 
 RUN mkdir -p /root/.jupyter/lab/user-settings/@jupyterlab/apputils-extension && \
     echo '{ \
@@ -77,4 +80,4 @@ RUN mkdir -p /root/.jupyter/lab/user-settings/@jupyterlab/apputils-extension && 
         } \
     }' > /root/.jupyter/lab/user-settings/@jupyterlab/apputils-extension/themes.jupyterlab-settings
 
-WORKDIR workspace
+WORKDIR /workspace

@@ -6,6 +6,9 @@ CUDA=/usr/local/cuda-12.2
 CONTAINER=jupyter
 ENVFILE=.env
 SHELL=/bin/bash
+USER=yspkm
+GROUP=yspkm
+BIN=/usr/bin
 
 build:
 	@args=""; \

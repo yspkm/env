@@ -1,0 +1,44 @@
+# 참고용
+jupyterlab
+jupyterlab-vim
+jupyterlab-code-formatter
+jupyterlab-lsp
+python-lsp-server[all]
+black
+isort
+notebook
+voila
+scikit-learn
+tensorboardX
+
+numpy
+scipy
+sympy
+pandas
+
+matplotlib
+seaborn
+plotly
+dash
+
+optuna
+cupy-cuda12x
+memory_profiler
+pyarrow
+ipywidgets
+dezero
+kaggle
+pillow
+pygraphviz
+opencv-contrib-python
+opencv-python
+tqdm
+pytest
+imageio
+
+ 
+# --index-url https://download.pytorch.org/whl/cu121
+# torch
+# torchvision
+# torchaudio
+# torchtext
