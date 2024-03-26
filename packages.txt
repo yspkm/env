@@ -36,9 +36,18 @@ tqdm
 pytest
 imageio
 
+# nlp
+einops
+transformers
+
  
 # --index-url https://download.pytorch.org/whl/cu121
-# torch
-# torchvision
-# torchaudio
-# torchtext
+torch
+torchvision
+torchaudio
+torchtext
+tensorboard
+
+# Jax
+jax
+flax

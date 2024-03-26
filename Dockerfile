@@ -35,9 +35,11 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+COPY packages.txt .
 RUN pip3 install --upgrade setuptools pip && \
-    pip3 install torch torchvision torchaudio torchtext --index-url https://download.pytorch.org/whl/cu121 && \
-    pip3 install -r requirements.txt 
+    #pip3 install -r requirements.txt 
+    #pip3 install torch torchvision torchaudio torchtext --index-url https://download.pytorch.org/whl/cu121 && \
+    pip3 install -r packages.txt
 
 RUN wget http://cdn.naver.com/naver/NanumFont/fontfiles/NanumFont_TTF_ALL.zip && \
     wget https://github.com/naver/nanumfont/releases/download/VER2.5/NanumGothicCoding-2.5.zip && \
