@@ -10,6 +10,7 @@ notebook
 voila
 scikit-learn
 tensorboardX
+tensorboard
 
 numpy
 scipy
