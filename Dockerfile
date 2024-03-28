@@ -1,4 +1,4 @@
-FROM ubuntu:jammy-20240227
+FROM huggingface/transformers-pytorch-gpu:4.35.2
 
 ARG TZ
 ARG JULIA_RELEASE
@@ -6,40 +6,23 @@ ARG JULIA_VERSION
 ARG JULIA_TAR_GZ
 ARG JUPYTER_PASSWORD
 
-# CUDA 설치 경로 
-ENV PATH="/cuda/bin:${PATH}"
-ENV LD_LIBRARY_PATH="/cuda/lib64:${LD_LIBRARY_PATH}"
- 
-RUN rm -f /etc/apt/sources.list.d/*.list
-COPY requirements.txt .
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime
+
 RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y \
-        build-essential \
         wget \
         vim \
         curl \
-        ssh \
         tree \
-        git \
-        libgl1-mesa-glx \
-        libglib2.0-0 \
         zip \
         unzip \
 	graphviz \
-	libgraphviz-dev \
-        python3 \
-        python3-dev \
-        python3-pip && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+	libgraphviz-dev
 
-COPY packages.txt .
+COPY requirements.txt .
 RUN pip3 install --upgrade setuptools pip && \
-    #pip3 install -r requirements.txt 
-    #pip3 install torch torchvision torchaudio torchtext --index-url https://download.pytorch.org/whl/cu121 && \
-    pip3 install -r packages.txt
+    pip3 install -r requirements.txt
 
 RUN wget http://cdn.naver.com/naver/NanumFont/fontfiles/NanumFont_TTF_ALL.zip && \
     wget https://github.com/naver/nanumfont/releases/download/VER2.5/NanumGothicCoding-2.5.zip && \

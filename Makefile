@@ -1,13 +1,10 @@
 IMAGE=yspkm/jupyter
-TAG=pytorch2.2.1-cuda12.1-cudnn8-runtime
+TAG=huggingface/transformers-pytorch-gpu:4.35.2
 DOCKERFILE=.
-WORKDIR=/home/yspkm
-CUDA=/usr/local/cuda-12.2
+WORKDIR=/home/yspkm/work
 CONTAINER=jupyter
 ENVFILE=.env
 SHELL=/bin/bash
-USER=yspkm
-GROUP=yspkm
 BIN=/usr/bin
 
 build:
@@ -26,12 +23,12 @@ up:
 		--interactive \
 		--tty \
 		--runtime=nvidia \
+		--shm-size=512g \
 		--gpus all \
 		--ipc=host \
 		--volume $(WORKDIR):/workspace \
-		--volume $(CUDA):/cuda \
 		-p 8888:8888 \
-		-p 6006:6006 \
+		-p 6006 \
 		--name $(CONTAINER) \
 		$(IMAGE):$(TAG) jupyter lab --allow-root
 
